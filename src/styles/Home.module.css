@@ -16,6 +16,15 @@
   width: 100%;
   z-index: 2;
   font-family: var(--font-mono);
+  margin: 20px 15px 15px
+}
+
+.container {
+  background: white;
+  height: 700px;
+  min-width: 280px;
+  border-radius: 10px;
+  border-bottom: 1.5px solid rgb(224, 215, 215);
 }
 
 .description a {

@@ -4,16 +4,21 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-type Data = {
-  name: string
+type Todo = {
+  task: string,
+  status: number
 }
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
+
+  if(req.method !== 'POST'){
+    return res.status(405).json({message: 'Not allowed method'})
+  }
   const todosData = JSON.parse(req.body);
-  const todo = await prisma.contact.create({
+  const todo = await prisma.todo.create({
     data: todosData
   })
 
