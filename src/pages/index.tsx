@@ -2,8 +2,21 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
+import { PrismaClient, Prisma } from '@prisma/client'
 
 const inter = Inter({ subsets: ['latin'] })
+
+const prisma = new PrismaClient()
+export async function getServerSideProps() {
+
+
+  const todo = await prisma.todo.findMany()
+  return {
+    props: {
+      initialTodo: todo
+    }, // will be passed to the page component as props
+  }
+}
 
 export default function Home() {
   return (
@@ -112,4 +125,3 @@ export default function Home() {
     </>
   )
 }
-
