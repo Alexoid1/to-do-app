@@ -1,22 +1,40 @@
-import Head from 'next/head'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
-import { PrismaClient, Prisma } from '@prisma/client'
+import Head from 'next/head';
+import useSWR from 'swr'
+import styles from '@/styles/Home.module.css';
+import { PrismaClient, Prisma } from '@prisma/client';
+import Nav from '../components/Nav/Nav'
+import Task from '../components/Task/Task'
 
 
 const prisma = new PrismaClient()
 export async function getServerSideProps() {
 
 
-  const todo = await prisma.todo.findMany()
+  const task = await prisma.task.findMany()
   return {
     props: {
-      initialTodo: todo
+      initialTasks: task
     }, // will be passed to the page component as props
   }
 }
 
-export default function Home() {
+
+
+
+export default function Home({initialTasks}) {
+  console.log(initialTasks)
+  let numI = 0
+  const colorArray:Array<string> = ['#F20707','#F29407','F2E207', '#07A3F2', '#E207F2', '#07F22E']
+  function getColor( ):string{
+    if(numI > 6) {
+      numI =0
+      
+    }else {
+      numI += 1
+    }
+    const color = colorArray[numI]
+    return color
+  }
   return (
     <>
       <Head>
@@ -30,10 +48,12 @@ export default function Home() {
         <div className={styles.description}>
           <h1>
             Board
- 
           </h1>
         </div>
-         
+        <Nav/>
+        <div>
+        {(initialTasks.map((task) => <Task key={task.id} task={task} bcolor={getColor()}/>))}
+        </div>
         </div>
       </main>
     </>

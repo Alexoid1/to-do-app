@@ -7,11 +7,17 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./abctodo.db"
+  url      = "file:./taskmcd.db"
 }
 
-model todo {
+model task {
   id Int @id @default(autoincrement())
-  task String
+  title String
+  deadLine Int
+  startTime Int
+  endTime Int
+  remind Int
+  repeat Int
   status Int
+
 }
