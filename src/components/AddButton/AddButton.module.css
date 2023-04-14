@@ -1,0 +1,16 @@
+.cont {
+    width: 100%;
+}
+
+.buttonContainer {
+    background:#65e892;
+    width: 210px;
+    padding: 14px 0px;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    text-align: center;
+    display: block;
+    margin: auto;
+    
+}

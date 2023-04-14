@@ -1,40 +1,83 @@
 import styles from './Task.module.css';
 import {useState} from 'react'; 
-import useSWR from "swr";
 
-export default function Task (props){
+
+export default function Task ({task, bcolor, updatetasks}){
+  
+   
+    const [color, setColor] = useState('none')
+    let col = ''
     
-    console.log(props.bcolor)
+    const [status, setStatus] = useState(task.status)
+    let newStatus= 0
+    function checkStatus(){
+      console.log('newStatus', newStatus)
+      if(status ===1){
+        col = bcolor
+        newStatus=0
+      }else{
+        col = 'none'
+        newStatus=1
+      }
 
-    function handleOnClick(){
-        const fetcher = (query: `mutation {
-            
-        }`) =>
-  fetch('/api/task', {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json',
-    },
-    body: JSON.stringify({ query }),
+    }
+    checkStatus()
+    function handleOnClick(id: number){
+      console.log(id)
+ 
+    
+      fetch('/api/task', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({ "query":`mutation {
+        updateTask(input:{
+          id: ${id}
+          status: ${newStatus}
+        }) {
+          id
+          title
+          deadLine
+          startTime
+          endTime
+          remind
+          repeat
+          status
+        }
+      }` }),
   })
     .then((res) => res.json())
-    .then((json) => json.data)
+    .then((json) =>{
+      console.log(json)
+     
+      if(json.data.updateTask.status === 1){
+        col = bcolor
+        setStatus(1)
+      
 
-
-
-  fetcher('Query')
-}
+      }else{
+        col= 'none'
+        setStatus(0)
     
+      }
+      updatetasks(JSON.parse(JSON.stringify(json.data.updateTask)))
+    })
+  }
+
+  
+
     
     return (<div className={styles.taskContainer}>
   
-    <button className='item' onClick={handleOnClick}/>
+    <button className='item' onClick={(e) => handleOnClick(task.id)}/>
     <style jsx>{`.item {
-        border: 2px solid ${props.bcolor};
+        border: 2px solid ${bcolor};
         width: 20px;
         height: 20px;
         margin-right: 10px;
+        background: ${col};
         }`}</style>
-    <p>{props.task.title}</p>
+    <p>{task.title}</p>
    </div>)
 }

@@ -1,32 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-/*import type { NextApiRequest, NextApiResponse } from 'next'
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
-
-type Task = {
-  title: string,
-  deadLine: number,
-  startTim: number,
-  endTime: number,
-  remind: number,
-  repeat: number,
-  status: number
-}
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-
-  if(req.method !== 'POST'){
-    return res.status(405).json({message: 'Not allowed method'})
-  }
-  const todosData = JSON.parse(req.body);
- 
-
-  res.json(todosData)
-}*/
 import { createYoga, createSchema } from 'graphql-yoga'
 import { PrismaClient } from '@prisma/client'
 
@@ -38,6 +9,7 @@ const typeDefs = /* GraphQL */ `
   }
 
   type Task {
+    id: Int,
     title: String,
     deadLine: Int,
     startTime: Int,
@@ -57,18 +29,51 @@ const typeDefs = /* GraphQL */ `
     status: Int!
   }
 
+  input UpdateTaskInput {
+    id: Int!,
+    status: Int!
+  }
+
+  input DeleteTaskInput {
+    id: Int!
+  }
+
   type Mutation {
     createTask(input: CreateTaskInput): Task
+    updateTask(input: UpdateTaskInput): Task
+    deleteTask(input: DeleteTaskInput): Task
   }
 `
 
 const resolvers = {
+  Query: {
+    tasks: () => prisma.task.findMany()
+  },
+  
   Mutation: {
-    createTask(_,{input}) {
-      console.log(JSON.stringify(input))
-      return prisma.task.create({data: input})
+    async createTask(_,{input}) {
+      
+      console.log('New Task added === ' +JSON.stringify(input))
+      return await prisma.task.create({data: input})
       
     },
+
+    async updateTask(_,{input}) {
+       
+      console.log('Task updated sucefully ==== '+JSON.stringify(input))
+      return await prisma.task.update({
+        where:{id: input.id},
+        data: {status: input.status}
+      })  
+    },
+
+    async deleteTask(_, {input}){
+      
+      console.log('Task deleted sucefully')
+      return await prisma.task.delete({
+        where:{id: input.id}
+      }) 
+    }
   },
 }
 
