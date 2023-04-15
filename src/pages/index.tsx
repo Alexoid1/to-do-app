@@ -1,8 +1,7 @@
 import Head from 'next/head';
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import {useState, useEffect} from 'react'
 import styles from '@/styles/Home.module.css';
-import { PrismaClient, task, Prisma} from '@prisma/client';
+import { PrismaClient, Prisma} from '@prisma/client';
 import Nav from '../components/Nav/Nav';
 import Task from '../components/Task/Task';
 import AddButton from '@/components/AddButton/AddButton';
@@ -10,12 +9,6 @@ import AddButton from '@/components/AddButton/AddButton';
 
 const prisma = new PrismaClient()
 export async function getServerSideProps() {
- const client = new ApolloClient({
-  uri: "http://localhost:3000/api/task",
-  cache: new InMemoryCache()
-
- })
-
   const task = await prisma.task.findMany()
   return {
     props: {

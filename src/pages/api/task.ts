@@ -21,9 +21,9 @@ const typeDefs = /* GraphQL */ `
 
   input CreateTaskInput {
     title: String,
-    deadLine: Int!,
-    startTime: Int!,
-    endTime: Int!,
+    deadLine: date!,
+    startTime: date!,
+    endTime: date!,
     remind: Int,
     repeat: Int,
     status: Int!

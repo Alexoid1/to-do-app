@@ -1,6 +1,7 @@
-import {useState} from 'react'
+import {useState} from 'react';
+import Link from 'next/link';
 import styles from '@/styles/Home.module.css';
-import AddButton from '@/components/AddButton/AddButton';
+
 
 export default function AddTask() {
     const [formData, setFormData] = useState({
@@ -17,25 +18,26 @@ export default function AddTask() {
         setFormData({ ...formData, [name]: value });
       };
     
-       async function  handleSubmit(event){
+       function  handleSubmit(event){
         event.preventDefault();
         
         const usedata= {
             title: formData.title,
-            deadLine: new Date(formData.deadline).getTime(),
-            startTime: new Date(formData.startTime).getTime(),
-            endTime: new Date(formData.endTime).getTime(),
+            deadLine: formData.deadline,
+            startTime: formData.startTime,
+            endTime: formData.endTime,
             remind: parseInt(formData.remind as string,10),
             repeat: parseInt(formData.repeat as string,10)
         }
+        console.log(usedata)
         
         // Do something with the form data, e.g. send it to a server
-        await fetch('//localhost:3000/api/task', {
+        fetch('/api/task', {
             method: 'POST',
             headers: {
               'Content-type': 'application/json',
             },
-            body: JSON.stringify({query: `mutation {
+            body: JSON.stringify({'query': `mutation {
               createTask(input:{
                 title: ${usedata.title}
                 deadLine: ${usedata.deadLine}
@@ -45,6 +47,7 @@ export default function AddTask() {
                 repeat: ${usedata.repeat}
                 status: 0
               }) {
+                
                 title
                 deadLine
                 startTime
@@ -54,8 +57,11 @@ export default function AddTask() {
                 status
               }
             }`}),
-        }).then((data) => console.log('valio'))
+        })
+        .then((data) => console.log(data.json()))
+       
          
+      
           
         
         console.log(formData);
@@ -65,10 +71,13 @@ export default function AddTask() {
          
           <main className={styles.main}>
           <div className={styles.container}>
+
             <div className={styles.description}>
+              <Link href="/">
               <h1>
-                Board
+              《 Add Task
               </h1>
+              </Link> 
             </div>
             <form onSubmit={handleSubmit} className={styles.formContainer}>
            
