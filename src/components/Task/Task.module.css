@@ -1,0 +1,32 @@
+.taskContainer  {
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    padding: 0px 25px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    padding-top: 25px;
+}
+
+.item {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+}
+
+.delete {
+    text-align: right;
+    visibility: hidden;
+}
+
+.cdcont:hover > .delete{
+    visibility: visible;
+    color: red;
+}
+
+.cdcont {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 250px;
+}
