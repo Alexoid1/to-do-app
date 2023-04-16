@@ -12,7 +12,7 @@ npm run dev
 
 ```
 
-### Deploy Production
+### Run Production
 
 ```bash
 npm install
