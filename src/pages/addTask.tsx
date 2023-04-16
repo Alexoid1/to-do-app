@@ -21,50 +21,53 @@ export default function AddTask() {
        function  handleSubmit(event){
         event.preventDefault();
         
-        const usedata= {
+        let usedata= {
             title: formData.title,
-            deadLine: formData.deadline,
-            startTime: formData.startTime,
-            endTime: formData.endTime,
-            remind: parseInt(formData.remind as string,10),
-            repeat: parseInt(formData.repeat as string,10)
+            deadLine: formData.deadline.toString(),
+            startTime: formData.startTime.toString(),
+            endTime: formData.endTime.toString(),
+            remind: formData.remind,
+            repeat: parseInt(formData.repeat as string,10),
+            status: 0
         }
-        console.log(usedata)
+
+        const val = JSON.stringify(usedata).replaceAll('"','')
+       
         
         // Do something with the form data, e.g. send it to a server
-        fetch('/api/task', {
-            method: 'POST',
-            headers: {
-              'Content-type': 'application/json',
-            },
-            body: JSON.stringify({'query': `mutation {
-              createTask(input:{
-                title: ${usedata.title}
-                deadLine: ${usedata.deadLine}
-                startTime: ${usedata.startTime}
-                endTime: ${usedata.endTime}
-                remind: ${usedata.remind}
-                repeat: ${usedata.repeat}
-                status: 0
-              }) {
-                
-                title
-                deadLine
-                startTime
-                endTime
-                remind
-                repeat
-                status
-              }
-            }`}),
-        })
-        .then((data) => console.log(data.json()))
+        const graphqlQuery = {
+          "query":`mutation {
+          createTask(input: {
+            title: "${usedata.title}",
+            deadLine: "${usedata.deadLine}",
+            startTime: "${usedata.startTime}",
+            endTime: "${usedata.endTime}",
+            remind: ${usedata.remind},
+            repeat: ${usedata.repeat},
+            status: ${usedata.status}
+          }) {
+            title
+            deadLine
+            startTime
+            endTime
+            remind
+            repeat
+            status
+          }
+        }`}
+
+        const options ={
+          "method": 'POST',
+          "headers": {
+          "content-type": "application/json",
+          },
+          "body": JSON.stringify(graphqlQuery)
+        }
+        fetch("/api/task", options)
+        .then((res) => console.log(res.json()))
+        .catch(function(error){console.log(error)})
+     
        
-         
-      
-          
-        
-        console.log(formData);
       };
     return (
         <>
@@ -93,7 +96,7 @@ export default function AddTask() {
                 <label>
                     Deadline:
                     <input
-                    type="date"
+                    type="text"
                     name="deadline"
                     value={formData.deadline}
                     onChange={handleInputChange}
@@ -102,7 +105,7 @@ export default function AddTask() {
                 <label>
                     Start Time:
                     <input
-                    type="date"
+                    type="text"
                     name="startTime"
                     value={formData.startTime}
                     onChange={handleInputChange}
@@ -111,7 +114,7 @@ export default function AddTask() {
                 <label>
                     End Time:
                     <input
-                    type="date"
+                    type="text"
                     name="endTime"
                     value={formData.endTime}
                     onChange={handleInputChange}
@@ -134,7 +137,7 @@ export default function AddTask() {
                     value={formData.repeat}
                     onChange={handleInputChange}
                     >
-                    <option value="">Select an option</option>
+                    <option value="0">Select an option</option>
                     <option value="1">Daily</option>
                     <option value="7">Weekly</option>
                     <option value="30">Monthly</option>

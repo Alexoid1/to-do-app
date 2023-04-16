@@ -11,9 +11,19 @@ const typeDefs = /* GraphQL */ `
   type Task {
     id: Int,
     title: String,
-    deadLine: Int,
-    startTime: Int,
-    endTime: Int,
+    deadLine: String,
+    startTime: String,
+    endTime: String,
+    remind: Int,
+    repeat: Int,
+    status: Int
+  }
+
+  type Task2 {
+    title: String,
+    deadLine: String,
+    startTime: String,
+    endTime: String,
     remind: Int,
     repeat: Int,
     status: Int
@@ -21,9 +31,9 @@ const typeDefs = /* GraphQL */ `
 
   input CreateTaskInput {
     title: String,
-    deadLine: date!,
-    startTime: date!,
-    endTime: date!,
+    deadLine: String!,
+    startTime: String!,
+    endTime: String!,
     remind: Int,
     repeat: Int,
     status: Int!
@@ -39,7 +49,7 @@ const typeDefs = /* GraphQL */ `
   }
 
   type Mutation {
-    createTask(input: CreateTaskInput): Task
+    createTask(input: CreateTaskInput): Task!
     updateTask(input: UpdateTaskInput): Task
     deleteTask(input: DeleteTaskInput): Task
   }

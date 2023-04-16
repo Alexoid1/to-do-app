@@ -13,9 +13,9 @@ datasource db {
 model task {
   id Int @id @default(autoincrement())
   title String
-  deadLine Int
-  startTime Int
-  endTime Int
+  deadLine String
+  startTime String
+  endTime String
   remind Int
   repeat Int
   status Int

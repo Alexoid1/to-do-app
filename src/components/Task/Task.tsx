@@ -61,7 +61,7 @@ export default function Task ({task, bcolor, updatetasks}){
         setStatus(0)
     
       }
-      updatetasks(JSON.parse(JSON.stringify(json.data.updateTask)))
+
     })
   }
 
