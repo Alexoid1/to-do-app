@@ -2,7 +2,7 @@ import styles from './Task.module.css';
 import {useState} from 'react'; 
 
 
-export default function Task ({task, bcolor }){
+export default function Task ({task, bcolor, updateTask}){
   
    
     let col = ''
@@ -46,18 +46,18 @@ export default function Task ({task, bcolor }){
   })
     .then((res) => res.json())
     .then((json) =>{
-      console.log(json)
-     
+      updateTask(id, json.data.updateTask.status )
       if(json.data.updateTask.status === 1){
+     
         col = bcolor
         setStatus(1)
-      
 
       }else{
         col= 'none'
         setStatus(0)
     
       }
+      
 
     })
   }

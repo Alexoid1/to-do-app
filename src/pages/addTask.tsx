@@ -31,7 +31,7 @@ export default function AddTask() {
             status: 0
         }
 
-        const val = JSON.stringify(usedata).replaceAll('"','')
+  
        
         
         // Do something with the form data, e.g. send it to a server
