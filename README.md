@@ -5,12 +5,41 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 First, run the development server:
 
 ```bash
+npm install
+
 npm run dev
 # or
-yarn dev
-# or
-pnpm dev
+
 ```
+
+### Deploy Production
+
+```bash
+npm install
+
+npm run build
+# or
+
+npm start
+```
+
+## Built With
+
+- Node.js
+- React
+- GraphQl
+- CSS
+- Prisma
+- SQLite
+
+
+## Authors
+
+👤 **Pablo Alexis Zambrano Coral**
+- Github: [@Alexoid1](https://github.com/Alexoid1)
+- Twitter: [@Alexis Zambrano_acz](https://twitter.com/pablo_acz)
+- Linkedin: [linkedin](https://www.linkedin.com/in/alexzambranocoral/)
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
