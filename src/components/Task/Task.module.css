@@ -13,3 +13,20 @@
     width: 20px;
     height: 20px;
 }
+
+.delete {
+    text-align: right;
+    visibility: hidden;
+}
+
+.cdcont:hover > .delete{
+    visibility: visible;
+    color: red;
+}
+
+.cdcont {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 250px;
+}

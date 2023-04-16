@@ -35,6 +35,7 @@ export default function Home({initialTasks}) {
 
   alltasks= initialTasks
   const [filter, setFilter] = useState('all')
+  const [deleteItem, setDeleteItem] = useState(false)
 
   useEffect(() => {
     // Actualiza el título del documento usando la API del navegador
@@ -69,6 +70,16 @@ export default function Home({initialTasks}) {
     updatedTask[index].status = val
     setTasks(updatedTask)
   }
+  
+
+  function deleteTask(id){
+    const index = tasks.findIndex((task) => task.id === id);
+    let deletedTask =tasks
+    deletedTask.splice(index,1) 
+    setTasks(deletedTask)
+    setDeleteItem(!deleteItem)
+  }
+  
 
   
   return (
@@ -88,7 +99,7 @@ export default function Home({initialTasks}) {
         </div>
         <Nav filterTask ={setFilter}/>
         <div className={styles.items}>
-        {(tasks.map((task) => <Task key={task.id} task={task} bcolor={getColor()} updateTask={updateNewTask}/>))}
+        {(tasks.map((task) => <Task key={task.id} task={task} bcolor={getColor()} updateTask={updateNewTask} deletedTask={deleteTask}/>))}
         </div>
         
         <AddButton></AddButton>

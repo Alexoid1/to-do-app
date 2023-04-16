@@ -2,7 +2,7 @@ import styles from './Task.module.css';
 import {useState} from 'react'; 
 
 
-export default function Task ({task, bcolor, updateTask}){
+export default function Task ({task, bcolor, updateTask, deletedTask}){
   
    
     let col = ''
@@ -58,9 +58,33 @@ export default function Task ({task, bcolor, updateTask}){
     
       }
       
-
     })
   }
+
+  function handleDelete(id){
+    fetch('/api/task', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({ "query":`mutation {
+        deleteTask(input:{
+          id: ${id}
+        }) {
+          id
+          title
+        }
+      }` }),
+  })
+    .then((res) => res.json())
+    .then((json) =>{
+      deletedTask(id)
+     
+      
+    })
+  }
+
+
 
   
 
@@ -75,6 +99,9 @@ export default function Task ({task, bcolor, updateTask}){
         margin-right: 10px;
         background: ${col};
         }`}</style>
+    <div className={styles.cdcont}>
     <p>{task.title}</p>
+    <p className={styles.delete} onClick={()=>handleDelete(task.id)}>✘</p>
+    </div>
    </div>)
 }
