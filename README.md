@@ -24,7 +24,8 @@ npm start
 ```
 
 ## Built With
-
+- Next
+- TypeScript
 - Node.js
 - React
 - GraphQl
