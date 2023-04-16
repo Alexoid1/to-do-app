@@ -83,46 +83,54 @@ export default function AddTask() {
               </Link> 
             </div>
             <form onSubmit={handleSubmit} className={styles.formContainer}>
+              <div className={styles.cont2}>
            
-                        <label>
+                <label className={styles.field}>
                     Title:
                     <input
+                    className={styles.inputField}
                     type="text"
                     name="title"
                     value={formData.title}
                     onChange={handleInputChange}
                     />
                 </label>
-                <label>
+                <label className={styles.field}>
                     Deadline:
                     <input
-                    type="text"
+                    className={styles.inputField}
+                    type="date"
                     name="deadline"
                     value={formData.deadline}
                     onChange={handleInputChange}
                     />
                 </label>
-                <label>
-                    Start Time:
-                    <input
-                    type="text"
-                    name="startTime"
-                    value={formData.startTime}
-                    onChange={handleInputChange}
-                    />
-                </label>
-                <label>
-                    End Time:
-                    <input
-                    type="text"
-                    name="endTime"
-                    value={formData.endTime}
-                    onChange={handleInputChange}
-                    />
-                </label>
-                <label>
+                <div className={styles.fieldCont}>
+                  <label className={`${styles["field"]} ${styles.field2}`}>
+                      Start Time:
+                      <input
+                      className={styles.inputField}
+                      type="date"
+                      name="startTime"
+                      value={formData.startTime}
+                      onChange={handleInputChange}
+                      />
+                  </label>
+                  <label className={`${styles["field"]} ${styles.field2}`}>
+                      End Time:
+                      <input
+                      className={styles.inputField}
+                      type="date"
+                      name="endTime"
+                      value={formData.endTime}
+                      onChange={handleInputChange}
+                      />
+                  </label>
+                </div>
+                <label className={styles.field}>
                     Remind:
                     <input
+                    className={styles.inputField}
                     type="number"
                     name="remind"
                     value={formData.remind}
@@ -130,10 +138,11 @@ export default function AddTask() {
                     />
                 </label>
                
-                <label>
+                <label className={styles.field}>
                     Repeat:
                     <select
                     name="repeat"
+                    className={styles.inputField}
                     value={formData.repeat}
                     onChange={handleInputChange}
                     >
@@ -143,7 +152,8 @@ export default function AddTask() {
                     <option value="30">Monthly</option>
                     </select>
                 </label>
-                <button type="submit">Submit</button>
+                </div>
+                <button className={styles.buttonContainer} type="submit">Submit</button>
               
             </form>
         

@@ -2,10 +2,9 @@ import styles from './Task.module.css';
 import {useState} from 'react'; 
 
 
-export default function Task ({task, bcolor, updatetasks}){
+export default function Task ({task, bcolor }){
   
    
-    const [color, setColor] = useState('none')
     let col = ''
     
     const [status, setStatus] = useState(task.status)
@@ -23,9 +22,7 @@ export default function Task ({task, bcolor, updatetasks}){
     }
     checkStatus()
     function handleOnClick(id: number){
-      console.log(id)
  
-    
       fetch('/api/task', {
       method: 'POST',
       headers: {

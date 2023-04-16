@@ -6,19 +6,16 @@ import Nav from '../components/Nav/Nav';
 import Task from '../components/Task/Task';
 import AddButton from '@/components/AddButton/AddButton';
 
-
+let alltasks =  []     
 const prisma = new PrismaClient()
 export async function getServerSideProps() {
   const task = await prisma.task.findMany()
+  
   return {
     props: {
       initialTasks: task
     }, // will be passed to the page component as props
   }
-}
-
-async function saveTasks(tasks: Prisma.taskCreateInput){
-  
 }
 
 
@@ -33,21 +30,28 @@ export default function Home({initialTasks}) {
     repeat: number;
     status: number
   }
-  const [update, setUpdate] = useState(true)
+  
   const [tasks, setTasks] = useState<Task[]>(initialTasks)
- 
 
+  alltasks= initialTasks
+  const [filter, setFilter] = useState('all')
 
-  async function updateTasks (res){
- 
-    setTasks([...tasks])
-  }
+  useEffect(() => {
     // Actualiza el título del documento usando la API del navegador
-    
- 
+    if(filter==='completed'){
+      setTasks(()=> alltasks.filter((task)=> task.status === 1))
+    }else if(filter==='uncompleted') {
+      setTasks(()=> alltasks.filter((task)=> task.status === 0))
+    }else{
+      setTasks(alltasks)
+    }
+  }, [filter]);
+  console.log(tasks)
+    // Actualiza el título del documento usando la API del navegador
+  let numI = 0;
 
-  let numI = 0
-  const colorArray:Array<string> = ['#F20707','#F29407','F2E207', '#07A3F2', '#E207F2', '#07F22E']
+  const colorArray:Array<string> = ['#F20707','#F29407','F2E207', '#07A3F2', '#E207F2', '#07F22E'];
+
   function getColor( ){
     if(numI > 6) {
       numI =0
@@ -58,11 +62,8 @@ export default function Home({initialTasks}) {
     const color = colorArray[numI]
     return color
   }
-  
 
-  function updateState(){
-    setUpdate(false)
-  }
+  
   return (
     <>
       <Head>
@@ -78,9 +79,9 @@ export default function Home({initialTasks}) {
             Board
           </h1>
         </div>
-        <Nav/>
+        <Nav filterTask ={setFilter}/>
         <div className={styles.items}>
-        {(tasks.map((task) => <Task key={task.id} task={task} bcolor={getColor()} updatetasks={updateTasks}/>))}
+        {(tasks.map((task) => <Task key={task.id} task={task} bcolor={getColor()}/>))}
         </div>
         
         <AddButton></AddButton>
